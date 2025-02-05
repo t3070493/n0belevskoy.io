@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сайт Взлом</title>
+    <style>
+        body {
+            background-color: black;
+            color: lime;
+            font-size: 40px;
+            text-align: center;
+            font-family: monospace;
+            overflow: hidden;
+            animation: bg-glitch 0.05s infinite alternate;
+        }
+        @keyframes bg-glitch {
+            0% { background-color: black; }
+            50% { background-color: darkred; }
+            100% { background-color: black; }
+        }
+        .blink {
+            animation: blink 0.2s infinite alternate;
+        }
+        @keyframes blink {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .glitch {
+            position: relative;
+            display: inline-block;
+            color: lime;
+            text-shadow: 2px 2px red, -2px -2px blue;
+            animation: glitch 0.05s infinite alternate;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-5px, 5px) skewX(10deg); }
+            40% { transform: translate(5px, -5px) skewX(-10deg); }
+            60% { transform: translate(-5px, -5px) skewX(10deg); }
+            80% { transform: translate(5px, 5px) skewX(-10deg); }
+            100% { transform: translate(0, 0); }
+        }
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif');
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .screamer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: url('https://kartinki.pibig.info/uploads/posts/2023-04/1682108235_kartinki-pibig-info-p-skrimeri-strashnie-kartinki-arti-vkontakte-43.png') center/cover no-repeat;
+            display: none;
+            z-index: 9999;
+        }
+        .info {
+            display: none;
+            color: red;
+            font-size: 30px;
+            margin-top: 20px;
+        }
+        .author {
+            display: none;
+            color: white;
+            font-size: 25px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="noise"></div>
+    <div id="text" class="blink glitch">Привет бро! Твой пк заражен, рекомендую ждать.</div>
+    <div id="screamer" class="screamer"></div>
+    <div id="info" class="info"></div>
+    <div id="author" class="author"></div>
+    <audio id="backgroundSound" autoplay loop>
+        <source src="https://zvukogram.com/sounds/80856" type="audio/mpeg">
+    </audio>
+    <script>
+        function goFullscreen() {
+            document.documentElement.requestFullscreen().catch(() => {});
+        }
+        goFullscreen();
+        
+        setInterval(goFullscreen, 5000);
+        
+        setTimeout(() => {
+            document.getElementById('text').innerHTML = '<span class="glitch">ХВХЫХВАХАВХЫ<br>пизда твоему пк</span>';
+        }, 4000);
+        
+        function playRandomScream() {
+            let sounds = [
+                'https://www.myinstants.com/media/sounds/screamer.mp3',
+                'https://www.myinstants.com/media/sounds/horror-sound.mp3',
+                'https://www.myinstants.com/media/sounds/creepy-noise.mp3'
+            ];
+            let screamAudio = new Audio(sounds[Math.floor(Math.random() * sounds.length)]);
+            screamAudio.play();
+        }
+        
+        setTimeout(() => {
+            document.getElementById('screamer').style.display = 'block';
+            playRandomScream();
+            setTimeout(() => {
+                document.getElementById('screamer').style.display = 'none';
+                document.getElementById('author').style.display = 'block';
+                document.getElementById('author').innerHTML = 'Автор: n0belevskoy <br> Причина: заебал чесно!';
+            }, 1000);
+        }, Math.random() * 10000 + 5000);
+        
+        setInterval(() => {
+            playRandomScream();
+        }, Math.random() * 15000 + 5000);
+        
+        setTimeout(() => {
+            fetch('https://ipinfo.io/json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('info').style.display = 'block';
+                    document.getElementById('info').innerHTML = `
+                        <p>Имя ПК: ${navigator.platform}</p>
+                        <p>IP: ${data.ip}</p>
+                        <p>Город: ${data.city}</p>
+                        <p>Регион: ${data.region}</p>
+                        <p>Страна: ${data.country}</p>
+                        <p>Провайдер: ${data.org}</p>
+                        <p>Операционная система: ${navigator.userAgent}</p>
+                        <p>Число потоков процессора: ${navigator.hardwareConcurrency}</p>
+                        <p>Язык системы: ${navigator.language}</p>`;
+                });
+        }, 15000);
+    </script>
+</body>
+</html>
